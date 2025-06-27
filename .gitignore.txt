@@ -1,3 +1,0 @@
-/Backend/Lib/
-/Backend/Scripts/
-/Backend/__pycache__/
