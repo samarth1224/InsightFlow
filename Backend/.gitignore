@@ -1,1 +1,4 @@
-# created by virtualenv automatically
+# created by virtualenv automaticall
+/__pycache__/
+/Lib/
+/Scripts/
