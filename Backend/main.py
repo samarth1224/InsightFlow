@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from summarize import Summarize
@@ -24,6 +24,14 @@ async def summarize_text(type: str, text: TextData):
         summary = Summarize(api_key=API_KEY)
         summarized_text =  await summary.summarize_text(text=text.text,type=type)
         return {"summary" : summarized_text}
+
+@app.post("summarize/document")
+async def summarize_document(file: UploadFile,type: str):
+    
+        summary = Summarize(api_key= API_KEY)
+        summarize_text = await summary.summarize_document(file=file,type=type)
+        return {"summary" : summarize_text}
+
 
 
 

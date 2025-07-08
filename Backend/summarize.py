@@ -20,9 +20,9 @@ class Summarize(Client):
         elif type.lower() == 'bullet':
             return  self.BULLET_SUMMARY_SYSTEM_PROMPT
 
-    async def summarize_text(self,text: str,type: str):
+    async def summarize_text(self,text: str,summary_type: str):
 
-        system_prompt = self._get_system_prompt(type = type)
+        system_prompt = self._get_system_prompt(type = summary_type)
         try:
             summary = await self.aio.models.generate_content(model="gemini-2.5-flash",
                                      contents = text,
@@ -33,4 +33,21 @@ class Summarize(Client):
             return summary.text
         except Exception as  e:
             return e
+
+
+    async def summarize_document(self, file ,summary_type: str):
+
+            prompt = self._get_system_prompt(type=summary_type)
+
+            try:
+                self.files.upload(file=file)
+            except Exception as e:
+                return f'failed to upload of file.ERROR {e}'
+
+            try:
+                summary = await self.aio.models.generate_content(model="gemini-2.5-flash",
+                                             content=[file,prompt])
+                return summary.text
+            except Exception as e:
+                return e
 
